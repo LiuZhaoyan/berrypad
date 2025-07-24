@@ -1,5 +1,7 @@
-import tkinter as tk
 import logging
+logger = logging.getLogger(__name__)
+
+import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 from components.component_basic import ComponentBasic, ComponentManager

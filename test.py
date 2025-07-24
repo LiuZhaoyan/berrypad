@@ -1,17 +1,14 @@
+import logging
+logger = logging.getLogger(__name__)
+
 import tkinter as tk
 from tkinter import ttk
 from components.component_basic import ComponentBasic
 from components.components import ComponentManager
 from layout import LayoutManager
-import logging
 import markdown
 from tkinterweb import HtmlFrame
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-)
 
-logger = logging.getLogger(__name__)
 
 class ComponentNotebook(ComponentBasic):
     """主容器-集成Notebook多标签管理"""

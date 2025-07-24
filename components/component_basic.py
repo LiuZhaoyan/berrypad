@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from typing import Dict, List, Callable
 from dataclasses import dataclass
 import tkinter as tk

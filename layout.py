@@ -1,4 +1,6 @@
 import logging
+logger = logging.getLogger(__name__)
+
 import tkinter as tk
 from dataclasses import dataclass
 from typing import Dict
