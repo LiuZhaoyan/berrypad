@@ -1,48 +1,29 @@
-# BerryPad MarkdownÎÄ±¾±à¼­Æ÷
-> ÀûÓÃpythonµÄtkinter´´½¨
+# BerryPad Markdownæ–‡æœ¬ç¼–è¾‘å™¨
+> åˆ©ç”¨pythonçš„tkinteråˆ›å»º
 
-## tkinter¿â¼ò½é
-Tkinter ÊÇ Python ÄÚÖÃµÄ GUI ¿â£¬ÓÅÊÆÊÇ?**?¼òµ¥Ò×ÓÃ¡¢¿çÆ½Ì¨£¨Windows/macOS/Linux£©¡¢ÎÞÐè¶îÍâÒÀÀµ??**£¬ÊÊºÏ¿ìËÙ¿ª·¢Ð¡ÐÍÓ¦ÓÃ¡£µ«ÊÜÏÞÓÚÉè¼Æ¶¨Î»£¬ÆäÌØÐÔÒ²´æÔÚÌìÈ»±ß½ç£º
+## tkinteråº“ç®€ä»‹
+Tkinter æ˜¯ Python å†…ç½®çš„ GUI åº“ï¼Œä¼˜åŠ¿æ˜¯?**?ç®€å•æ˜“ç”¨ã€è·¨å¹³å°ï¼ˆWindows/macOS/Linuxï¼‰ã€æ— éœ€é¢å¤–ä¾èµ–**ï¼Œé€‚åˆå¿«é€Ÿå¼€å‘å°åž‹åº”ç”¨ã€‚ä½†å—é™äºŽè®¾è®¡å®šä½ï¼Œå…¶ç‰¹æ€§ä¹Ÿå­˜åœ¨å¤©ç„¶è¾¹ç•Œï¼š
 
-??- **ÓÅÊÆ**??£º
-1. ÇáÁ¿¼¶£ºÄÚ´æÕ¼ÓÃµÍ£¬Æô¶¯ËÙ¶È¿ì£»
-2. Ñ§Ï°³É±¾µÍ£º»ù´¡×é¼þ£¨Text¡¢Button¡¢Menu µÈ£©ÈÝÒ×ÕÆÎÕ£»
-3. ¿çÆ½Ì¨¼æÈÝÐÔ£ºÎÞÐè¶îÍâÅäÖÃ¼´¿ÉÔÚ¶àÏµÍ³ÔËÐÐ¡£
+- **ä¼˜åŠ¿**ï¼š
+1. è½»é‡çº§ï¼šå†…å­˜å ç”¨ä½Žï¼Œå¯åŠ¨é€Ÿåº¦å¿«ï¼›
+2. å­¦ä¹ æˆæœ¬ä½Žï¼šåŸºç¡€ç»„ä»¶ï¼ˆTextã€Buttonã€Menu ç­‰ï¼‰å®¹æ˜“æŽŒæ¡ï¼›
+3. è·¨å¹³å°å…¼å®¹æ€§ï¼šæ— éœ€é¢å¤–é…ç½®å³å¯åœ¨å¤šç³»ç»Ÿè¿è¡Œã€‚
 
-??- **ÏÞÖÆ**??£º
-1. ½çÃæ¶¨ÖÆÄÜÁ¦Èõ£ºÄ¬ÈÏÑùÊ½¼òÂª£¨Èç°´Å¥¡¢¹ö¶¯Ìõ·ç¸ñ¹Ì¶¨£©£¬¸´ÔÓ²¼¾ÖÐèÊÖ¶¯µ÷Õû£»
-2. ÐÔÄÜÒ»°ã£º´¦Àí´óÎÄ±¾£¨ÈçÍòÐÐÒÔÉÏ´úÂë£©»ò¸ßÆµÊÂ¼þ£¨ÈçÊµÊ±Óï·¨¸ßÁÁ£©Ê±¿ÉÄÜ¿¨¶Ù£»
-3. ¹¦ÄÜÀ©Õ¹ÓÐÏÞ£ºÈ±·¦ÄÚÖÃµÄ¸ß¼¶×é¼þ£¨Èç´úÂëÕÛµþ¡¢ÖÕ¶ËÄ£ÄâÆ÷¡¢µ÷ÊÔÆ÷£©£¬ÐèÒÀÀµµÚÈý·½¿â»ò×ÔÐÐÊµÏÖ¡£
-
-|     ºËÐÄ¹¦ÄÜµã     |                       Tkinter ÊµÏÖ·½°¸                     | ÄÑ¶È |
-| :------------:| :----------------------------------------------------------: | ---: |
-| ÎÄ±¾ÊäÈëÓë±à¼­  | Ê¹ÓÃ `tk.Text` ×é¼þ£¬Ö§³Ö¶àÐÐÊäÈë¡¢¹â±ê²Ù×÷¡¢¸´ÖÆÕ³ÌùµÈ»ù´¡¹¦ÄÜ¡£ |   µÍ |
-|    ÊµÊ±Ô¤ÀÀ    | ¼àÌý `Text` ×é¼þµÄ `<<Modified>>` ÊÂ¼þ£¬´¥·¢ Markdown ×ª»»£¨ÓÃ `markdown` ¿â£©£¬½á¹ûÏÔÊ¾ÔÚÁíÒ» `Text` »ò `ScrolledText` ×é¼þÖÐ¡£ |   ÖÐ |
-|    Óï·¨¸ßÁÁ    | ÀûÓÃ `Text` ×é¼þµÄ `tag` »úÖÆ£¬Îª Markdown Óï·¨£¨Èç `# ±êÌâ`¡¢`**¼Ó´Ö**`£©×Ô¶¨ÒåÑÕÉ«/×ÖÌåÑùÊ½¡£ |   ÖÐ |
-|    ·ÖÆÁ²¼¾Ö    | Ê¹ÓÃ `PanedWindow` »ò `Frame` + `grid` ²¼¾Ö£¬×óÓÒ·ÖÀ¸£¨±à¼­Çø/Ô¤ÀÀÇø£©¡£ |   µÍ |
-|    µ¼³ö¹¦ÄÜ    | ÓÃ `markdown2` »ò `pypandoc` ¿â½« Markdown ×ª»»Îª HTML/PDF£¬Í¨¹ý `filedialog` ±£´æ¡£ |   µÍ |
+- **é™åˆ¶**ï¼š
+1. ç•Œé¢å®šåˆ¶èƒ½åŠ›å¼±ï¼šé»˜è®¤æ ·å¼ç®€é™‹ï¼ˆå¦‚æŒ‰é’®ã€æ»šåŠ¨æ¡é£Žæ ¼å›ºå®šï¼‰ï¼Œå¤æ‚å¸ƒå±€éœ€æ‰‹åŠ¨è°ƒæ•´ï¼›
+2. æ€§èƒ½ä¸€èˆ¬ï¼šå¤„ç†å¤§æ–‡æœ¬ï¼ˆå¦‚ä¸‡è¡Œä»¥ä¸Šä»£ç ï¼‰æˆ–é«˜é¢‘äº‹ä»¶ï¼ˆå¦‚å®žæ—¶è¯­æ³•é«˜äº®ï¼‰æ—¶å¯èƒ½å¡é¡¿ï¼›
+3. åŠŸèƒ½æ‰©å±•æœ‰é™ï¼šç¼ºä¹å†…ç½®çš„é«˜çº§ç»„ä»¶ï¼ˆå¦‚ä»£ç æŠ˜å ã€ç»ˆç«¯æ¨¡æ‹Ÿå™¨ã€è°ƒè¯•å™¨ï¼‰ï¼Œéœ€ä¾èµ–ç¬¬ä¸‰æ–¹åº“æˆ–è‡ªè¡Œå®žçŽ°ã€‚
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-## ÏÈ´´½¨Ò»¸ö×î¼òµ¥µÄÎÄ±¾±à¼­Æ÷
+## å…ˆåˆ›å»ºä¸€ä¸ªæœ€ç®€å•çš„æ–‡æœ¬ç¼–è¾‘å™¨
 ```python
     from tkinter import *
     import tkinter.filedialog as filedialog
     root=Tk("Text Editor")
     text=Text(root)
     text.grid()
-    # ±£´æÎÄ¼þ
+    # ä¿å­˜æ–‡ä»¶
     def saveas():
         global text
         t = text.get("1.0", "end-1c")
@@ -53,7 +34,7 @@ Tkinter ÊÇ Python ÄÚÖÃµÄ GUI ¿â£¬ÓÅÊÆÊÇ?**?¼òµ¥Ò×ÓÃ¡¢¿çÆ½Ì¨£¨Windows/macOS/Linux
     button=Button(root, text="Save", command=saveas)
     button.grid() 
 
-    # ¿ÉÑ¡×ÖÌå
+    # å¯é€‰å­—ä½“
     def FontHelvetica():
         global text
         text.config(font="Helvetica")

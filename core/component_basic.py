@@ -1,41 +1,12 @@
-import logging
-logger = logging.getLogger(__name__)
-
-from typing import Dict, List, Callable
 from dataclasses import dataclass
+from typing import Callable, List
+from core.component_manager import ComponentManager
 import tkinter as tk
-from bus import EventBus
-
-class ComponentManager(EventBus):
-    """组件管理器"""
-    def __init__(self, root, layout_manager=None):
-        super().__init__()
-        self.root = root
-        self.layout_manager = layout_manager
-        self._components: Dict = {}
-        
-    def register_component(self, component) -> bool:
-        """注册组件"""
-        if component.name in self._components:
-            # logging.warning(f"组件已存在: {component.name}")
-            return False
-            
-        self._components[component.name] = component
-        # logging.info(f"已注册组件: {component.name}")
-        
-        # 执行初始化钩子
-        if component.init_hook:
-            component.init_hook()
-        return True
-    
-    def get_component(self, name: str) -> tk.Widget:
-        """获取组件"""
-        return self._components.get(name, None)
 
 @dataclass
 class ComponentBasic:
     """编辑器组件基类"""
-    manager: ComponentManager # 组件管理器引用
+    manager: ComponentManager
     name: str
     widget: tk.Widget = None
     dependencies: List[str] = None
@@ -65,6 +36,13 @@ class ComponentBasic:
             return self.manager.layout_manager.get_container(self.get_layout_section())
         return None
     
+    def destroy_widget(self) -> None:
+        """销毁组件的GUI小部件"""
+        if self.widget:
+            self.widget.destroy()
+            self.widget = None
+            # logger.info(f"销毁组件小部件: {self.name}")
+
     def get_layout_section(self) -> str:
         """返回组件的主要布局区域（默认主区域）"""
         return "main_area"
@@ -76,3 +54,14 @@ class ComponentBasic:
             if isinstance(child, tk.Text):
                 return child
         return None
+
+class MenuActionComponent:
+    """菜单动作组件基类"""
+    def __init__(self, name: str, manager):
+        self.name = name
+        self.manager = manager
+        # self.manager.register_component(self) # TODO: 是否需要注册？
+    
+    def execute(self, *args, **kwargs):
+        """执行菜单动作"""
+        raise NotImplementedError("子类必须实现 execute 方法")
