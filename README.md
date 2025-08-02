@@ -1,8 +1,11 @@
-# BerryPad Markdown文本编辑器
+# berrypad
 > 利用python的tkinter创建
 
+## 构建方法
+`uv run main.py`
+
 ## tkinter库简介
-Tkinter 是 Python 内置的 GUI 库，优势是?**?简单易用、跨平台（Windows/macOS/Linux）、无需额外依赖**，适合快速开发小型应用。但受限于设计定位，其特性也存在天然边界：
+Tkinter 是 Python 内置的 GUI 库，优势是**简单易用、跨平台（Windows/macOS/Linux）、无需额外依赖**，适合快速开发小型应用。但受限于设计定位，其特性也存在天然边界：
 
 - **优势**：
 1. 轻量级：内存占用低，启动速度快；
@@ -15,8 +18,7 @@ Tkinter 是 Python 内置的 GUI 库，优势是?**?简单易用、跨平台（W
 3. 功能扩展有限：缺乏内置的高级组件（如代码折叠、终端模拟器、调试器），需依赖第三方库或自行实现。
 
 
-
-## 先创建一个最简单的文本编辑器
+## 一切源于一个最简单的文本编辑器
 ```python
     from tkinter import *
     import tkinter.filedialog as filedialog

@@ -35,7 +35,9 @@ class ComponentTextArea(ComponentBasic):
                 wrap=tk.WORD,
                 padx=10,
                 pady=10,
-                yscrollcommand=scrollbar.set
+                yscrollcommand=scrollbar.set,
+                undo=True,
+                maxundo=50
             )
             text_area.pack(fill=tk.BOTH, expand=True)
             # 绑定文本修改事件

@@ -15,7 +15,6 @@ class ComponentTool(ComponentBasic):
         self.toolbar_frame = self.get_container()
         
         self._init_toolbar()
-        # 注意：默认菜单注册移到主应用中
     
     def _init_toolbar(self) -> None:
         """初始化工具栏"""
@@ -24,10 +23,6 @@ class ComponentTool(ComponentBasic):
         
         self.manager.subscribe("button_entered", self.on_button_entered)
         self.manager.subscribe("button_leaved", self.on_button_leaved)
-    
-    def register_default_menus(self) -> None:
-        """注册默认菜单 - 由主应用调用"""
-        pass  # 实际注册在主应用中完成
     
     def on_button_entered(self, button: tk.Button) -> None:
         """处理按钮悬停事件"""

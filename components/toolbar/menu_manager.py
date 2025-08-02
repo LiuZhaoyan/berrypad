@@ -38,6 +38,7 @@ class MenuManager:
         menu_shortcut = "" if not self.is_shortcut_available(menu_shortcut, is_menu_shortcut=True) else menu_shortcut
         item_configs = []
 
+        # 添加菜单项
         for item_name, callback, item_shortcut in menu_items:
             formatted_shortcut = self.format_shortcut(item_shortcut) if item_shortcut else ""
             menu.add_command(

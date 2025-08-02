@@ -1,4 +1,5 @@
 import tkinter as tk
+from components.menu_actions.view_actions import ToggleRenderModeAction
 from core.component_manager import ComponentManager
 from core.layout_manager import LayoutManager
 from components.toolbar.menu_manager import MenuManager
@@ -10,14 +11,15 @@ from components.notebook.component_render_area import ComponentRenderArea
 from components.editor.component_editor import TextEditor
 from components.menu_actions.file_actions import NewFileAction, OpenFileAction, SaveAsFileAction, SaveFileAction
 from components.menu_actions.edit_actions import CopyAction, PasteAction, CutAction
+from components.menu_actions.format_actions import StrikeAction, StrongAction, EmphasisAction, UnderlineAction, CodeAction
 
 class MarkdownEditorApp:
     """主应用类"""
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Berrypad")
-        self.root.geometry("1200x800")
-        
+        self.root.geometry("1200x700")
+        self.root.iconbitmap("berrypad.ico")
         # 初始化核心组件
         self.layout_manager = LayoutManager(self.root)
         self.component_manager = ComponentManager(self.root, self.layout_manager)
@@ -38,7 +40,7 @@ class MarkdownEditorApp:
     def _register_core_components(self) -> None:
         """注册核心组件"""
         component_tool = ComponentTool(self.component_manager, self.menu_manager)
-        component_status = ComponentStatus(self.component_manager)
+        component_status = ComponentStatus(self.component_manager, self.layout_manager)
         
     
     def _register_menu_actions(self) -> None:
@@ -51,6 +53,12 @@ class MarkdownEditorApp:
             CopyAction("copy_action", self.component_manager),
             PasteAction("paste_action", self.component_manager),
             CutAction("cut_action", self.component_manager),
+            StrongAction("strong_action", self.component_manager),
+            EmphasisAction("emphasis_action", self.component_manager),
+            UnderlineAction("underline_action", self.component_manager),
+            CodeAction("code_action", self.component_manager),
+            StrikeAction("strike_action", self.component_manager),
+            ToggleRenderModeAction("toggle_render_mode_action", self.component_manager)
         ]
         
         for action in actions:
@@ -81,6 +89,30 @@ class MarkdownEditorApp:
                 ("剪切", self.component_manager.get_component("cut_action").execute, "<Control-x>")
             ],
             menu_shortcut="<Control-E>"
+        )
+
+        # 格式菜单
+        self.menu_manager.register_menu(
+            menu_name="format_menu",
+            button_text="格式",
+            menu_items=[
+                ("加粗", self.component_manager.get_component("strong_action").execute, "<Control-b>"),
+                ("斜体", self.component_manager.get_component("emphasis_action").execute, "<Control-i>"),
+                ("下划线", self.component_manager.get_component("underline_action").execute, "<Control-u>"),
+                ("代码块", self.component_manager.get_component("code_action").execute, "<Control-k>"),
+                ("删除线", self.component_manager.get_component("strike_action").execute, "<Control-d>")
+            ],
+            menu_shortcut="<Control-F>"
+        )
+
+        # 视图菜单
+        self.menu_manager.register_menu(
+            menu_name="view_menu",
+            button_text="视图",
+            menu_items=[
+                ("退出渲染", self.component_manager.get_component("toggle_render_mode_action").execute, "<Control-/>")
+            ],
+            menu_shortcut="<Control-V>"
         )
     
     def _register_editor(self) -> None:
