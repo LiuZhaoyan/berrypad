@@ -351,6 +351,13 @@ class TextEditor(ComponentBasic):
             text_area.mark_set(tk.INSERT, new_cursor_pos)
             text_area.see(new_cursor_pos)
             
+            # 解析行号和列号（注意：Tkinter行号从1开始，列号从0开始）
+            line, column = new_cursor_pos.split('.')
+            line = int(line)
+            col = int(column) + 1
+            
+            # 发布光标位置事件
+            self.manager.publish("text_cursor_moved", line=line, column=col)
         except tk.TclError:
             # 没有选中文本的异常处理
             self._insert_empty_format(text_area, prefix, suffix)
@@ -370,6 +377,14 @@ class TextEditor(ComponentBasic):
         
         # 确保光标可见
         text_area.focus_set()
+
+        # 解析行号和列号（注意：Tkinter行号从1开始，列号从0开始）
+        line, column = middle_pos.split('.')
+        line = int(line)
+        col = int(column) + 1
+        
+        # 发布光标位置事件
+        self.manager.publish("text_cursor_moved", line=line, column=col)
     
     def _get_active_text_area(self) -> tk.Text:
         """获取当前活动的文本区域"""

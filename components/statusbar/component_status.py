@@ -30,7 +30,7 @@ class ComponentStatus(ComponentBasic):
     
     def _bind_events(self) -> None:
         """绑定事件"""
-        self.manager.subscribe("status.update", self._on_status_update)
+        self.manager.subscribe("status_updated", self._on_status_updated)
         self.manager.subscribe("file.encoding_changed", self._on_encoding_changed)
         self.manager.subscribe("text_cursor_moved", self._on_text_cursor_moved)
 
@@ -143,7 +143,7 @@ class ComponentStatus(ComponentBasic):
         )
         self.status_labels['encoding'].pack(side=tk.RIGHT)
 
-    def _on_status_update(self, message: str) -> None:
+    def _on_status_updated(self, message: str) -> None:
         """更新主状态信息"""
         if 'main' in self.status_labels:
             self.status_labels['main'].config(text=message)
@@ -159,7 +159,7 @@ class ComponentStatus(ComponentBasic):
     
     def set_status(self, message: str) -> None:
         """设置状态信息"""
-        self.manager.publish("status.update", message=message)
+        self.manager.publish("status_updated", message=message)
     
     def set_cursor_position(self, line: int, column: int) -> None:
         """设置光标位置"""
