@@ -1,4 +1,5 @@
 import tkinter as tk
+from components.menu_actions.paragraph_actions import CodeBlockAction, HeadingAction, OrderedListAction, QuoteAction, UnorderedListAction
 from components.menu_actions.view_actions import ToggleRenderModeAction
 from core.component_manager import ComponentManager
 from core.layout_manager import LayoutManager
@@ -58,11 +59,13 @@ class MarkdownEditorApp:
             UnderlineAction("underline_action", self.component_manager),
             CodeAction("code_action", self.component_manager),
             StrikeAction("strike_action", self.component_manager),
-            ToggleRenderModeAction("toggle_render_mode_action", self.component_manager)
+            ToggleRenderModeAction("toggle_render_mode_action", self.component_manager),
+            HeadingAction("heading_action", self.component_manager),
+            QuoteAction("quote_action", self.component_manager),
+            UnorderedListAction("unordered_list_action", self.component_manager),
+            OrderedListAction("ordered_list_action", self.component_manager),
+            CodeBlockAction("code_block_action", self.component_manager)
         ]
-        
-        for action in actions:
-            self.component_manager.register_component(action)
     
     def _register_default_menus(self) -> None:
         """注册默认菜单"""
@@ -91,18 +94,38 @@ class MarkdownEditorApp:
             menu_shortcut="<Control-E>"
         )
 
+        # 标题菜单
+        self.menu_manager.register_menu(
+            menu_name="paragraph_menu",
+            button_text="标题",
+            menu_items=[
+                ("标题 1", self.component_manager.get_component("heading_action").execute_1, "<Control-Key-1>"),
+                ("标题 2", self.component_manager.get_component("heading_action").execute_2, "<Control-Key-2>"),
+                ("标题 3", self.component_manager.get_component("heading_action").execute_3, "<Control-Key-3>"),
+                ("标题 4", self.component_manager.get_component("heading_action").execute_4, "<Control-Key-4>"),
+                ("标题 5", self.component_manager.get_component("heading_action").execute_5, "<Control-Key-5>"),
+                ("标题 6", self.component_manager.get_component("heading_action").execute_6, "<Control-Key-6>"),
+
+                ("引用", self.component_manager.get_component("quote_action").execute, "<Control-q>"),
+                ("无序列表", self.component_manager.get_component("unordered_list_action").execute, "<Control-Shift-[>"),
+                ("有序列表", self.component_manager.get_component("ordered_list_action").execute, "<Control-Shift-]>"),
+                ("代码块", self.component_manager.get_component("code_block_action").execute, "<Control-Shift-k>")
+            ],
+            menu_shortcut=""
+        )
+
         # 格式菜单
         self.menu_manager.register_menu(
             menu_name="format_menu",
             button_text="格式",
             menu_items=[
                 ("加粗", self.component_manager.get_component("strong_action").execute, "<Control-b>"),
-                ("斜体", self.component_manager.get_component("emphasis_action").execute, "<Control-i>"),
+                ("斜体", self.component_manager.get_component("emphasis_action").execute, "<Control-l>"),
                 ("下划线", self.component_manager.get_component("underline_action").execute, "<Control-u>"),
-                ("代码块", self.component_manager.get_component("code_action").execute, "<Control-k>"),
+                ("代码行", self.component_manager.get_component("code_action").execute, "<Control-k>"),
                 ("删除线", self.component_manager.get_component("strike_action").execute, "<Control-d>")
             ],
-            menu_shortcut="<Control-F>"
+            menu_shortcut=""
         )
 
         # 视图菜单

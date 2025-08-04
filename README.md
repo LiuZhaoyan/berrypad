@@ -4,6 +4,11 @@
 ## 构建方法
 `uv run main.py`
 
+## :rocket: 功能
+
+- 支持 `Markdown` 语法快捷键
+- 分文本区和渲染区。渲染区可隐藏
+
 ## tkinter库简介
 Tkinter 是 Python 内置的 GUI 库，优势是**简单易用、跨平台（Windows/macOS/Linux）、无需额外依赖**，适合快速开发小型应用。但受限于设计定位，其特性也存在天然边界：
 

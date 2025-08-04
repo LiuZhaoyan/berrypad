@@ -1,4 +1,3 @@
-
 # 配置日志系统
 import logging
 import sys

@@ -112,11 +112,11 @@ class ComponentTextArea(ComponentBasic):
                 
                 # 解析行号和列号（注意：Tkinter行号从1开始，列号从0开始）
                 line, column = cursor_pos.split('.')
-                row = int(line)
+                line = int(line)
                 col = int(column) + 1
                 
                 # 发布光标位置事件
-                self.manager.publish("text_cursor_moved", row=row, column=col)
+                self.manager.publish("text_cursor_moved", line=line, column=col)
                 
             except Exception as e:
                 print(f"获取光标位置时出错: {e}")
@@ -128,3 +128,11 @@ class ComponentTextArea(ComponentBasic):
             tab_frame = notebook.nametowidget(tab_id)
             if self.check_direct_text_child(tab_frame):
                 self.check_direct_text_child(tab_frame).config(font=(family, size))
+
+    @staticmethod
+    def check_direct_text_child(frame) -> tk.Widget:
+        """检查是否有直接的文本子组件"""
+        for child in frame.winfo_children():
+            if isinstance(child, tk.Text):
+                return child
+        return None

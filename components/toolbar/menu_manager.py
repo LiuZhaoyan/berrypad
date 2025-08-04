@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 import tkinter as tk
 from tkinter import Menu
 import re
@@ -71,6 +74,7 @@ class MenuManager:
             item_shortcut = item["shortcut"]
             if item_shortcut and item_shortcut not in ["<Control-c>", "<Control-v>", "<Control-x>"]:
                 self.root.bind(item_shortcut, lambda e, cb=item["callback"]: cb())
+                logger.info(f"{item_shortcut} bind {item["callback"]}")
 
     def show_menu(self, menu_name: str) -> None:
         """显示指定菜单"""

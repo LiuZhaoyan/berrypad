@@ -46,21 +46,13 @@ class ComponentBasic:
     def get_layout_section(self) -> str:
         """返回组件的主要布局区域（默认主区域）"""
         return "main_area"
-    
-    @staticmethod
-    def check_direct_text_child(frame) -> tk.Widget:
-        """检查是否有直接的文本子组件"""
-        for child in frame.winfo_children():
-            if isinstance(child, tk.Text):
-                return child
-        return None
 
 class MenuActionComponent:
     """菜单动作组件基类"""
     def __init__(self, name: str, manager):
         self.name = name
         self.manager = manager
-        # self.manager.register_component(self) # TODO: 是否需要注册？
+        self.manager.register_component(self)
     
     def execute(self, *args, **kwargs):
         """执行菜单动作"""
