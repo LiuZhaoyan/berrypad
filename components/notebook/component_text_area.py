@@ -131,7 +131,7 @@ class ComponentTextArea(ComponentBasic):
         """更新所有标签页的字体"""
         notebook = self.manager.get_component("component_notebook").notebook
         for tab_id in notebook.tabs():
-            tab_frame = notebook.children[tab_id]
+            tab_frame = notebook.nametowidget(tab_id)
             if self.check_direct_text_child(tab_frame):
                 self.check_direct_text_child(tab_frame).config(font=(family,size))
 

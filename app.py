@@ -1,6 +1,7 @@
 import tkinter as tk
 from components.font.font_manager import FontManager
 from components.menu_actions.paragraph_actions import CodeBlockAction, HeadingAction, OrderedListAction, QuoteAction, UnorderedListAction
+from components.menu_actions.theme_actions import FontSelectAction, FontSizeDecreaseAction, FontSizeIncreaseAction, FontSizeResetAction
 from components.menu_actions.view_actions import ToggleRenderModeAction
 from core.component_manager import ComponentManager
 from core.layout_manager import LayoutManager
@@ -66,8 +67,18 @@ class MarkdownEditorApp:
             QuoteAction("quote_action", self.component_manager),
             UnorderedListAction("unordered_list_action", self.component_manager),
             OrderedListAction("ordered_list_action", self.component_manager),
-            CodeBlockAction("code_block_action", self.component_manager)
+            CodeBlockAction("code_block_action", self.component_manager),
+            FontSizeIncreaseAction("font_size_increase_action", self.component_manager),
+            FontSizeDecreaseAction("font_size_decrease_action", self.component_manager),
+            FontSizeResetAction("font_size_reset_action", self.component_manager),
         ]
+        # 为常用字体创建动作组件
+        common_fonts = ["微软雅黑", "宋体", "黑体", "Arial", "Times New Roman", "Courier New"]
+        for font_name in common_fonts:
+            # 创建安全的组件名称
+            safe_name = font_name.replace(" ", "_").replace("-", "_")
+            action = FontSelectAction(f"font_{safe_name}_action", self.component_manager, font_name)
+            actions.append(action)
     
     def _register_default_menus(self) -> None:
         """注册默认菜单"""
@@ -107,7 +118,7 @@ class MarkdownEditorApp:
                 ("标题 4", self.component_manager.get_component("heading_action").execute_4, "<Control-Key-4>"),
                 ("标题 5", self.component_manager.get_component("heading_action").execute_5, "<Control-Key-5>"),
                 ("标题 6", self.component_manager.get_component("heading_action").execute_6, "<Control-Key-6>"),
-
+                ("---", None, None),  # 分隔线
                 ("引用", self.component_manager.get_component("quote_action").execute, "<Control-q>"),
                 ("无序列表", self.component_manager.get_component("unordered_list_action").execute, "<Control-bracketleft>"),
                 ("有序列表", self.component_manager.get_component("ordered_list_action").execute, "<Control-bracketright>"),
@@ -138,6 +149,32 @@ class MarkdownEditorApp:
                 ("退出渲染", self.component_manager.get_component("toggle_render_mode_action").execute, "<Control-/>")
             ],
             menu_shortcut="<Control-V>"
+        )
+
+        # 主题菜单
+        # 先创建字体选择项列表
+        font_menu_items = [
+            ("增大字体", self.component_manager.get_component("font_size_increase_action").execute, "<Control-plus>"),
+            ("减小字体", self.component_manager.get_component("font_size_decrease_action").execute, "<Control-minus>"),
+            ("重置字体", self.component_manager.get_component("font_size_reset_action").execute, "<Control-0>"),
+            ("---", None, None),  # 分隔线
+        ]
+        
+        # 添加常用字体选项
+        common_fonts = ["微软雅黑", "宋体", "黑体", "Arial", "Times New Roman", "Courier New"]
+        for font_name in common_fonts:
+            safe_name = font_name.replace(" ", "_").replace("-", "_")
+            font_menu_items.append((
+                font_name, 
+                self.component_manager.get_component(f"font_{safe_name}_action").execute, 
+                None
+            ))
+        
+        self.menu_manager.register_menu(
+            menu_name="theme_menu",
+            button_text="主题",
+            menu_items=font_menu_items,
+            menu_shortcut="<Control-T>"
         )
     
     def _register_editor(self) -> None:

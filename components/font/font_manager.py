@@ -19,6 +19,8 @@ class FontManager:
         
         # 初始化字体设置
         self._initialize_font_settings()
+
+        self._bind_events()
     
     def _get_available_fonts(self) -> List[str]:
         """获取系统可用字体列表"""
@@ -26,18 +28,53 @@ class FontManager:
             root = tk.Tk()
             available_fonts = list(font.families())
             root.destroy()
-            # 按字母顺序排序
-            available_fonts.sort()
-            return available_fonts
+            # 过滤常用字体并排序
+            common_fonts = [
+                "微软雅黑", "宋体", "黑体", "楷体", "仿宋",
+                "Arial", "Times New Roman", "Courier New",
+                "Helvetica", "Verdana", "Tahoma"
+            ]
+            # 优先显示常用字体
+            result = []
+            for font_name in common_fonts:
+                if font_name in available_fonts:
+                    result.append(font_name)
+            # 添加其他可用字体
+            for font_name in available_fonts:
+                if font_name not in result:
+                    result.append(font_name)
+            return result[:50]  # 限制数量避免过多
         except Exception as e:
             print(f"获取字体列表时出错: {e}")
             return ["微软雅黑", "宋体", "黑体", "Arial", "Times New Roman"]
     
     def _initialize_font_settings(self) -> None:
         """初始化字体设置"""
-        # 发布初始字体设置
-        self._notify_font_change()
+        pass
     
+    def _bind_events(self) -> None:
+        """绑定事件"""
+        self.manager.subscribe("theme.font_selected", self._on_font_selected)
+        self.manager.subscribe("theme.font_size_increase", self._on_font_size_increase)
+        self.manager.subscribe("theme.font_size_decrease", self._on_font_size_decrease)
+        self.manager.subscribe("theme.font_size_reset", self._on_font_size_reset)
+    
+    def _on_font_selected(self, font_family: str) -> None:
+        """处理字体选择事件"""
+        self.set_font(family=font_family)
+    
+    def _on_font_size_increase(self) -> None:
+        """处理增大字体事件"""
+        self.increase_font_size(1)
+    
+    def _on_font_size_decrease(self) -> None:
+        """处理减小字体事件"""
+        self.decrease_font_size(1)
+    
+    def _on_font_size_reset(self) -> None:
+        """处理重置字体事件"""
+        self.reset_to_default()
+
     def set_font(self, family: str = None, size: int = None) -> bool:
         """
         设置字体
