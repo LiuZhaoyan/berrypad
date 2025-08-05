@@ -11,7 +11,7 @@ class ComponentNotebook(ComponentBasic):
             name="component_notebook",
             manager=manager
             )
-        self.frame = self.get_container()
+        self.container = self.get_container()
         self.notebook = None
         self._tabs = {} # 存储标签页的字典，{标签名, Frame}
         self.tab_content_cache = {}  # 缓存各标签页的文本内容，{标签名, 文本内容}
@@ -19,7 +19,7 @@ class ComponentNotebook(ComponentBasic):
         self._init_notebook()
 
     def _init_notebook(self):
-        self.notebook = ttk.Notebook(self.frame)
+        self.notebook = ttk.Notebook(self.container)
         self.notebook.pack(fill='both', expand=True)
         self.notebook.bind(
             '<<NotebookTabChanged>>',

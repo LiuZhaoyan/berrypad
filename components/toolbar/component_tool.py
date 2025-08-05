@@ -33,4 +33,4 @@ class ComponentTool(ComponentBasic):
         button.config(relief=tk.FLAT, bg="SystemButtonFace")
     
     def get_layout_section(self) -> str:
-        return "toolbar_top"
+        return "toolbar_section"

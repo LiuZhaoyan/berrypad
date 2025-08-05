@@ -18,7 +18,7 @@ class ComponentStatus(ComponentBasic):
     
     def _init_statusbar(self) -> None:
         """初始化状态栏"""
-        container = self.layout_manager.get_container("statusbar_bottom")
+        container = self.layout_manager.get_container("statusbar_section")
         # 创建状态栏
         if container:
             self.status_frame = tk.Frame(container, relief=tk.SUNKEN, bd=1)
@@ -78,46 +78,16 @@ class ComponentStatus(ComponentBasic):
         self.render_visible = not self.render_visible
         # 根据状态绘制不同颜色的圆
         if self.render_visible:
-            self.toggle_button.itemconfig("all", fill="#9E9E9E")  # 白色：显示渲染区域
+            self.toggle_button.itemconfig("all", fill="#9E9E9E")  # 显示渲染区域
         else:
-            self.toggle_button.itemconfig("all", fill="#FFFFFF")  # 白色：显示渲染区域
+            self.toggle_button.itemconfig("all", fill="#FFFFFF")  # 不显示渲染区域
         
         # 切换渲染区域显示状态
-        self._toggle_render_area()
+        self.layout_manager.toggle_render_area(self.render_visible)
         
         # 更新状态提示
         status_text = "双栏显示模式" if self.render_visible else "单栏编辑模式"
         self.set_status(status_text)
-    
-    def _toggle_render_area(self) -> None:
-        """切换渲染区域显示/隐藏"""
-        if self.render_visible:
-            # 显示渲染区域，恢复双栏布局
-            self.layout_manager.show_section("render_section")
-            self.layout_manager.show_section("main_area")
-            
-            # 调整主区域权重
-            self._adjust_layout_weights(show_render=True)
-        else:
-            # 隐藏渲染区域，编辑区域填充整个空间
-            self.layout_manager.hide_section("render_section")
-            
-            # 调整主区域权重，让编辑区域占满空间
-            self._adjust_layout_weights(show_render=False)
-    
-    def _adjust_layout_weights(self, show_render: bool) -> None:
-        """调整布局权重"""
-        try:
-            if show_render:
-                # 双栏模式：主区域和渲染区域各占一半
-                self.layout_manager.root.grid_columnconfigure(1, weight=100)  # 主区域
-                self.layout_manager.root.grid_columnconfigure(2, weight=100)  # 渲染区域
-            else:
-                # 单栏模式：主区域占满空间
-                self.layout_manager.root.grid_columnconfigure(1, weight=100)  # 主区域
-                self.layout_manager.root.grid_columnconfigure(2, weight=0)  # 渲染区域
-        except Exception as e:
-            print(f"调整布局权重时出错: {e}")
     
     def _create_status_labels(self) -> None:
         """创建状态标签"""

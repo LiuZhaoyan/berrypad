@@ -19,16 +19,6 @@ class ComponentBasic:
             # 自动注册组件到管理器
             self.manager.register_component(self)
             
-    def create_gui(self, container: tk.Widget) -> None:
-        """组件GUI创建方法(子类实现)"""
-        # logger.info(f"创建组件UI: {self.name}")
-        pass
-    
-    def post_layout_init(self) -> None:
-        """布局完成后执行的初始化（可重写）"""
-        # logger.info(f"布局完成后初始化组件: {self.name}")
-        pass
-    
     def get_container(self) -> tk.Widget:
         """获取组件的布局容器"""
         if self.manager and self.manager.layout_manager:
@@ -45,7 +35,7 @@ class ComponentBasic:
 
     def get_layout_section(self) -> str:
         """返回组件的主要布局区域（默认主区域）"""
-        return "main_area"
+        return "main_section"
 
 class MenuActionComponent:
     """菜单动作组件基类"""
