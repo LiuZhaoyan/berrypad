@@ -129,7 +129,9 @@ class MenuManager:
             'Super': 'Super',
             'Delete': 'Delete',
             'Win': 'Win',
-            'Cmd': 'Cmd'
+            'Cmd': 'Cmd',
+            "bracketleft": "[",
+            "bracketright": "]",
         }
         
         # 分离修饰键和主键
@@ -144,6 +146,8 @@ class MenuManager:
         # 映射修饰键
         formatted_modifiers = []
         for modifier in modifiers:
+            if modifier == "Key":
+                continue
             if modifier in modifier_map:
                 formatted_modifiers.append(modifier_map[modifier])
             else:

@@ -1,4 +1,5 @@
 import tkinter as tk
+from components.font.font_manager import FontManager
 from components.menu_actions.paragraph_actions import CodeBlockAction, HeadingAction, OrderedListAction, QuoteAction, UnorderedListAction
 from components.menu_actions.view_actions import ToggleRenderModeAction
 from core.component_manager import ComponentManager
@@ -25,6 +26,7 @@ class MarkdownEditorApp:
         self.layout_manager = LayoutManager(self.root)
         self.component_manager = ComponentManager(self.root, self.layout_manager)
         self.menu_manager = MenuManager(self.component_manager)
+        self.font_manager = FontManager(self.component_manager)
         
         # 注册基础组件
         self._register_core_components()
@@ -41,7 +43,7 @@ class MarkdownEditorApp:
     def _register_core_components(self) -> None:
         """注册核心组件"""
         component_tool = ComponentTool(self.component_manager, self.menu_manager)
-        component_status = ComponentStatus(self.component_manager, self.layout_manager)
+        component_status = ComponentStatus(self.component_manager, self.layout_manager, self.font_manager)
         
     
     def _register_menu_actions(self) -> None:
@@ -107,9 +109,9 @@ class MarkdownEditorApp:
                 ("标题 6", self.component_manager.get_component("heading_action").execute_6, "<Control-Key-6>"),
 
                 ("引用", self.component_manager.get_component("quote_action").execute, "<Control-q>"),
-                ("无序列表", self.component_manager.get_component("unordered_list_action").execute, "<Control-Shift-[>"),
-                ("有序列表", self.component_manager.get_component("ordered_list_action").execute, "<Control-Shift-]>"),
-                ("代码块", self.component_manager.get_component("code_block_action").execute, "<Control-Shift-k>")
+                ("无序列表", self.component_manager.get_component("unordered_list_action").execute, "<Control-bracketleft>"),
+                ("有序列表", self.component_manager.get_component("ordered_list_action").execute, "<Control-bracketright>"),
+                ("代码块", self.component_manager.get_component("code_block_action").execute, "<Control-Shift-K>")
             ],
             menu_shortcut=""
         )
@@ -144,7 +146,7 @@ class MarkdownEditorApp:
         notebook_component = ComponentNotebook(self.component_manager)
         
         # 注册文本区域组件
-        text_area_component = ComponentTextArea(self.component_manager)
+        text_area_component = ComponentTextArea(self.component_manager, self.font_manager)
         
         # 注册渲染区域组件
         render_area_component = ComponentRenderArea(self.component_manager)

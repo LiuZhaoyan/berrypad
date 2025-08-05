@@ -3,13 +3,15 @@ from core.component_basic import ComponentBasic
 
 class ComponentStatus(ComponentBasic):
     """底部状态栏组件"""
-    def __init__(self, manager, layout_manager):
+    def __init__(self, manager, layout_manager, font_manager):
         super().__init__(name="component_status", manager=manager)
         self.layout_manager = layout_manager
         self.status_frame = None
         self.status_labels = {}
         self.toggle_button = None
         self.render_visible = True  # 跟踪渲染区域是否可见
+        self.font_manager = font_manager
+        self._size = 12
         
         self._init_statusbar()
         self._bind_events()
@@ -30,11 +32,13 @@ class ComponentStatus(ComponentBasic):
     
     def _bind_events(self) -> None:
         """绑定事件"""
+        # 增加监听器
+        self.font_manager.add_font_change_listener(self._on_font_changed)
+
         self.manager.subscribe("status_updated", self._on_status_updated)
         self.manager.subscribe("file.encoding_changed", self._on_encoding_changed)
         self.manager.subscribe("text_cursor_moved", self._on_text_cursor_moved)
-
-        self.manager.subscribe("view.toggle_render_mode", self._on_toggle_click)
+        self.manager.subscribe("view.toggle_render_mode", self._on_toggle_clicked)
      
     def _create_toggle_button(self) -> None:
         """创建圆形切换按钮"""
@@ -56,7 +60,7 @@ class ComponentStatus(ComponentBasic):
         button_id = self.toggle_button.create_oval(3, 3, 15.5, 15.5, fill="#FFFFFF", outline="#393838", width=2)
 
         # 绑定事件
-        self.toggle_button.bind("<Button-1>", lambda e: self._on_toggle_click())
+        self.toggle_button.bind("<Button-1>", lambda e: self._on_toggle_clicked())
         self.toggle_button.bind("<Enter>", lambda e: self._on_button_hover(True, button_id))
         self.toggle_button.bind("<Leave>", lambda e: self._on_button_hover(False, button_id))
     
@@ -69,7 +73,7 @@ class ComponentStatus(ComponentBasic):
             self.toggle_button.config(cursor="")
             self.toggle_button.itemconfig(button_id, fill="#FFFFFF")
     
-    def _on_toggle_click(self) -> None:
+    def _on_toggle_clicked(self) -> None:
         """切换按钮点击事件"""
         self.render_visible = not self.render_visible
         # 根据状态绘制不同颜色的圆
@@ -117,12 +121,15 @@ class ComponentStatus(ComponentBasic):
     
     def _create_status_labels(self) -> None:
         """创建状态标签"""
+        family, size = self.font_manager.get_current_font()
+
         # 左侧状态信息（在按钮右侧）
         self.status_labels['main'] = tk.Label(
             self.status_frame, 
             text="就绪", 
             anchor=tk.W,
-            padx=5
+            padx=5,
+            font=(family, self._size)
         )
         self.status_labels['main'].pack(side=tk.LEFT, fill=tk.X, expand=True)
         
@@ -131,7 +138,8 @@ class ComponentStatus(ComponentBasic):
             self.status_frame, 
             text="行 1, 列 1", 
             anchor=tk.E,
-            padx=5
+            padx=5,
+            font=(family, self._size)
         )
         self.status_labels['position'].pack(side=tk.RIGHT)
         
@@ -139,9 +147,19 @@ class ComponentStatus(ComponentBasic):
             self.status_frame,
             text="UTF-8",
             anchor=tk.E,
-            padx=5
+            padx=5,
+            font=(family, self._size)
         )
         self.status_labels['encoding'].pack(side=tk.RIGHT)
+
+        self.status_labels['font'] = tk.Label(
+            self.status_frame,
+            text=family,
+            anchor=tk.E,
+            padx=5,
+            font=(family, self._size)
+        )
+        self.status_labels['font'].pack(side=tk.RIGHT)
 
     def _on_status_updated(self, message: str) -> None:
         """更新主状态信息"""
@@ -157,6 +175,14 @@ class ComponentStatus(ComponentBasic):
         if 'encoding' in self.status_labels:
             self.status_labels['encoding'].config(text=encoding)
     
+    def _on_font_changed(self, family: str, size: int):
+        for label in self.status_labels.values():
+            try:
+                label.config(font=(family, self._size))
+            except Exception as e:
+                print(f"应用字体到状态标签时出错: {e}")
+        self.status_labels["font"].config(text=family)
+
     def set_status(self, message: str) -> None:
         """设置状态信息"""
         self.manager.publish("status_updated", message=message)

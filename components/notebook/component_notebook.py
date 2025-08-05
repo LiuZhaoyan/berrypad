@@ -63,6 +63,7 @@ class ComponentNotebook(ComponentBasic):
         return None
     
     def get_tab_id_by_name(self, tab_name: str):
+        """通过tab_id拿到标签页名字"""
         for tab_id in self.notebook.tabs():
             # 获取当前标签页的显示文本
             current_text = self.notebook.tab(tab_id, 'text')

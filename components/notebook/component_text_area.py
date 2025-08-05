@@ -4,7 +4,7 @@ import tkinter as tk
 
 class ComponentTextArea(ComponentBasic):
     """文本区域组件"""
-    def __init__(self, manager: ComponentManager):
+    def __init__(self, manager: ComponentManager, font_manager):
         super().__init__(
             name="text_area", 
             manager=manager
@@ -13,18 +13,23 @@ class ComponentTextArea(ComponentBasic):
         self.text_area = None  # 当前标签页的文本组件
         self.current_tab = None  # 当前活动标签页的 frame
 
+        self.font_manager = font_manager
+
         self._init_text_area()
 
     def _init_text_area(self):
         """初始化文本区域组件"""
+        # 增加字体监听
+        self.font_manager.add_font_change_listener(self._on_font_changed)
+
         # 订阅事件
         self.manager.subscribe("new_tab_generated", self.create_text_area)
-        self.manager.subscribe("font_changed", self.update_font)
         self.manager.subscribe("tab_switched", self._on_tab_switched)
 
     def create_text_area(self, tab_name: str):
         """为标签页创建文本区域"""
         tab_frame = self.manager.get_component("component_notebook").get_tab_by_name(tab_name)
+        family, size = self.font_manager.get_current_font()
         
         scrollbar = tk.Scrollbar(tab_frame)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -37,7 +42,8 @@ class ComponentTextArea(ComponentBasic):
                 pady=10,
                 yscrollcommand=scrollbar.set,
                 undo=True,
-                maxundo=50
+                maxundo=50,
+                font=(family, size)
             )
             text_area.pack(fill=tk.BOTH, expand=True)
             # 绑定文本修改事件
@@ -121,13 +127,13 @@ class ComponentTextArea(ComponentBasic):
             except Exception as e:
                 print(f"获取光标位置时出错: {e}")
 
-    def update_font(self, family: str, size: int):
+    def _on_font_changed(self, family: str, size: int):
         """更新所有标签页的字体"""
-        notebook = self.manager.get_component("component_notebook").widget
+        notebook = self.manager.get_component("component_notebook").notebook
         for tab_id in notebook.tabs():
-            tab_frame = notebook.nametowidget(tab_id)
+            tab_frame = notebook.children[tab_id]
             if self.check_direct_text_child(tab_frame):
-                self.check_direct_text_child(tab_frame).config(font=(family, size))
+                self.check_direct_text_child(tab_frame).config(font=(family,size))
 
     @staticmethod
     def check_direct_text_child(frame) -> tk.Widget:
