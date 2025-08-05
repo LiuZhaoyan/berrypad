@@ -1,5 +1,5 @@
 # berrypad
-> 利用python的tkinter创建
+> 利用python的tkinter库创建，环境配置使用 uv
 
 ## 构建方法
 `uv run main.py`
