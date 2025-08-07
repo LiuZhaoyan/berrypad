@@ -1,30 +1,29 @@
 # berrypad
-> 利用python的tkinter库创建，环境配置使用 uv
+> almost depend only on **tkinter**, environment configured using **uv**
 
-## 构建方法
+## How to run
 `uv run main.py`
 
-## :rocket: 功能
+## :rocket: Feature
 
-- 支持 `Markdown` 语法快捷键
-- 分文本区和渲染区。渲染区可隐藏
-- 几乎只使用tkinter库
+- Support for `Markdown` syntax shortcuts
+- Editor Split into text area and rendering area. The rendering area can be hidden
+- Almost exclusively using tkinter
 
-## tkinter库简介
-Tkinter 是 Python 内置的 GUI 库，优势是**简单易用、跨平台（Windows/macOS/Linux）、无需额外依赖**，适合快速开发小型应用。但受限于设计定位，其特性也存在天然边界：
+## Introduction to tkinter 
+Tkinter is a built-in GUI library for Python, with the advantage of being easy to use, cross-platform (Windows/macOS/Linux), and requiring no additional dependencies, making it suitable for rapid development of small applications. However, there are natural boundaries to its features due to its design position:
+- **advantages**:
+1. lightweight: low memory footprint, fast startup;
+2. low learning costs: the basic components (Text, Button, Menu, etc.) easy to master ;
+3. cross-platform compatibility: can run on multiple systems without additional configuration.
 
-- **优势**：
-1. 轻量级：内存占用低，启动速度快；
-2. 学习成本低：基础组件（Text、Button、Menu 等）容易掌握；
-3. 跨平台兼容性：无需额外配置即可在多系统运行。
-
-- **限制**：
-1. 界面定制能力弱：默认样式简陋（如按钮、滚动条风格固定），复杂布局需手动调整；
-2. 性能一般：处理大文本（如万行以上代码）或高频事件（如实时语法高亮）时可能卡顿；
-3. 功能扩展有限：缺乏内置的高级组件（如代码折叠、终端模拟器、调试器），需依赖第三方库或自行实现。
+- **Limitations**:
+1. weak interface customization: the default style is simple (such as buttons, scrollbars, fixed style), complex layouts need to be manually adjusted;
+2. general performance: processing large text (such as more than 10,000 lines of code) or high-frequency events (such as real-time syntax highlighting) may lag;
+3. limited functionality: lack of built-in advanced components (such as code folding, terminal emulator, debugger), need to rely on third-party libraries or their own implementation.
 
 
-## 一切源于一个最简单的文本编辑器
+## A simplest text editor
 ```python
     from tkinter import *
     import tkinter.filedialog as filedialog
